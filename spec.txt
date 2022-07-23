@@ -1,0 +1,54 @@
+Nome da linguagem: Freeza
+
+
+Atribuição:
+    bar = 10;
+    foo = bar
+    x = foo == bar and 3 != 4
+    y = true
+    h = false;
+
+
+@ operadores matemáticos: @
++
+-
+*
+/
+%
+
+
+@ operadores relacionais:
+>
+<
+==
+!=
+>=
+<=
+@
+
+
+@ operadores lógicos:
+and
+or
+@
+
+
+Tipos:
+int (inteiro): idêntico ao número inteiro do JavaScript.
+bool (booleano): idêntico ao número booleano do JavaScript.
+
+
+Regras de nomes de identificadores:
+@
+Os identificadores podem ser uma combinação de letras minúsculas (a-z) ou maiúsculas (A-Z) ou dígitos (0-9) ou um sublinhado _
+Um identificador não pode começar com um dígito (0-9)
+Um identificador pode ter qualquer comprimento
+@
+
+
+Condicionais:
+    if foo == bar
+        x = y
+    end
+
+    if foo == bar then x = y end
