@@ -31,11 +31,11 @@ function lexer(tokens) {
                 token: 'end',
                 positionOfIf: keyword
             };
+        } else {
+            tokens[i] = {
+                token: tokens[i]
+            };
         }
-        
-        tokens[i] = {
-            token: tokens[i]
-        };
     }
     
     return tokens;
