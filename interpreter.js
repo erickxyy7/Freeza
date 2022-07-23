@@ -8,19 +8,20 @@
 var data = {};
 
 function interpreter(tokens) {
-    let expr;
+    console.log(tokens);
+    let expr, ifPosition;
     for (let i = 0, l = tokens.length; i < l; i++) {
         
         /* Atribuição. */
-        if (tokens[i] == '=') {
-            identifier_name = tokens[i - 1];
+        if (tokens[i].token == '=') {
+            identifier_name = tokens[i - 1].token;
             
             expr = [];
-            for (i++; tokens[i] != ';' && tokens[i] != 'end'; i++) {
-                if (data[tokens[i]])
-                    expr += data[tokens[i]].value;
+            for (i++; tokens[i].token != ';' && tokens[i].tokens != 'end'; i++) {
+                if (data[tokens[i].token])
+                    expr += data[tokens[i].token].value;
                 else
-                    expr += tokens[i];
+                    expr += tokens[i].token;
             }
             
             data[identifier_name] = {
@@ -29,20 +30,22 @@ function interpreter(tokens) {
         }
         
         /* Condicional if. */
-        if (tokens[i] == 'if') {
+        if (tokens[i].token == 'if') {
+            ifPosition = i;
             expr = '';
-            for (i++; tokens[i] != ';' && tokens[i] != 'then'; i++) {
-                if (data[tokens[i]])
-                    expr += data[tokens[i]].value;
+            for (i++; tokens[i].token != ';' && tokens[i].token != 'then'; i++) {
+                if (data[tokens[i].token])
+                    expr += data[tokens[i].token].value;
                 else
-                    expr += tokens[i];
+                    expr += tokens[i].token;
             }
             
             /* Caso a expressão seja verdadeira. */
             if (eval(expr))
                 continue;
             
-            for (i++; tokens[i] != 'end'; i++);
+            /* Caso a expressão seja falsa. */
+            i = tokens[ifPosition].positionOfEnd + 1;
         }
     }
     
