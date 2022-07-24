@@ -52,3 +52,9 @@ Condicionais:
     end
 
     if foo == bar then x = y end
+
+
+while:
+while 2 != 3
+    x = y
+end
