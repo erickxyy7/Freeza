@@ -12,7 +12,7 @@ function lexer(tokens) {
             while (true) {
                 j++;
                 
-                if (tokens[j] == 'if')
+                if (tokens[j] == 'if'  || tokens[j] == 'while')
                     x++;
                 else if (tokens[j] == 'end')
                     x--;
@@ -32,14 +32,48 @@ function lexer(tokens) {
                 token: 'end',
                 positionOfIf: keyword
             };
-        } else {
-            tokens[i] = {
-                token: tokens[i]
+        } else if (tokens[i] == 'while') {
+            /* Encontra o 'end' deste 'while'. */
+            
+            keyword = i;
+            j = i;
+            x = 1;
+            while (true) {
+                j++;
+                
+                if (tokens[j] == 'while' || tokens[j] == 'if')
+                    x++;
+                else if (tokens[j] == 'end')
+                    x--;
+                
+                if (tokens[j] == 'end' && x == 0) {
+                    endOfKeyword = j;
+                    break;
+                }
+            }
+            
+            tokens[keyword] = {
+                token: 'while',
+                positionOfEnd: endOfKeyword
+            };
+            
+            tokens[endOfKeyword] = {
+                token: 'end',
+                positionOfWhile: keyword
             };
         }
     }
     
+    for (let i = 0, l = tokens.length; i < l; i++) {
+        if (typeof tokens[i] == 'string')
+            tokens[i] = {
+                token: tokens[i]
+            };
+    }
+    
     return tokens;
 }
+
+console.log(lexer(['if', 'while', 'true', ';', 'x', '=', '10', ';', 'end', 'end']));
 
 module.exports = lexer;

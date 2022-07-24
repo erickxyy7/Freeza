@@ -9,7 +9,7 @@ var data = {};
 
 function interpreter(tokens) {
     console.log(tokens);
-    let expr, ifPosition;
+    let expr, ifPosition, positionOfWhile;
     for (let i = 0, l = tokens.length; i < l; i++) {
         
         /* Atribuição. */
@@ -47,6 +47,29 @@ function interpreter(tokens) {
             /* Caso a expressão seja falsa. */
             i = tokens[ifPosition].positionOfEnd + 1;
         }
+        
+        /* Loop while. */
+        if (tokens[i].token == 'while') {
+            whilePosition = i;
+            expr = '';
+            for (i++; tokens[i].token != ';'; i++) {
+                if (data[tokens[i].token])
+                    expr += data[tokens[i].token].value;
+                else
+                    expr += tokens[i].token;
+            }
+            
+            /* Caso a expressão seja verdadeira. */
+            if (eval(expr))
+                continue;
+            
+            /* Caso a expressão seja falsa. */
+            i = tokens[whilePosition].positionOfEnd + 1;
+        }
+        
+        /* 'end' de while. */
+        if (tokens[i].token == 'end' && (positionOfWhile = tokens[i].positionOfWhile) != undefined)
+            i = positionOfWhile;
     }
     
     console.log(data);
