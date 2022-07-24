@@ -35,7 +35,7 @@ or
 
 Tipos:
 int (inteiro): idêntico ao número inteiro do JavaScript.
-bool (booleano): idêntico ao número booleano do JavaScript.
+bool (booleano): true ou false
 
 
 Regras de nomes de identificadores:
