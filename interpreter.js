@@ -68,7 +68,7 @@ function interpreter(tokens) {
         
         /* 'end' de while. */
         if (tokens[i].token == 'end' && (positionOfWhile = tokens[i].positionOfWhile) != undefined)
-            i = positionOfWhile;
+            i = positionOfWhile - 1;
         
         /* Comando especial: print
          * Imprime na tela.
