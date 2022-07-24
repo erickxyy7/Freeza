@@ -74,6 +74,4 @@ function lexer(tokens) {
     return tokens;
 }
 
-console.log(lexer(['if', 'while', 'true', ';', 'x', '=', '10', ';', 'end', 'end']));
-
 module.exports = lexer;

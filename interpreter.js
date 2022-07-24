@@ -8,7 +8,6 @@
 var data = {};
 
 function interpreter(tokens) {
-    console.log(tokens);
     let expr, ifPosition, positionOfWhile;
     for (let i = 0, l = tokens.length; i < l; i++) {
         
@@ -70,9 +69,21 @@ function interpreter(tokens) {
         /* 'end' de while. */
         if (tokens[i].token == 'end' && (positionOfWhile = tokens[i].positionOfWhile) != undefined)
             i = positionOfWhile;
+        
+        /* Comando especial: print
+         * Imprime na tela.
+         */
+        if (tokens[i].token == 'print') {
+            expr = '';
+            for(i++; tokens[i].token != ';'; i++) {
+                if (data[tokens[i].token])
+                    expr += data[tokens[i].token].value;
+                else
+                    expr += tokens[i].token;
+            }
+            console.log(eval(expr));
+        }
     }
-    
-    console.log(data);
 }
 
 module.exports = interpreter;
