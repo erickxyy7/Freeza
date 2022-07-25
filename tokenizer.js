@@ -35,6 +35,8 @@ function translateSomeTokensToJavascript(tokens) {
             return '&&';
         else if (item == 'or')
             return '||';
+        else if (item == '==')
+            return '===';
         return item;
     });
 }
