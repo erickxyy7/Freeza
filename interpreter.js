@@ -1,3 +1,13 @@
+const STRING_APOSTROPHE = require('./tokens').isolated.STRING_APOSTROPHE;
+
+function is_string(value) {
+    value = String(value);
+    let result = value.match(RegExp(STRING_APOSTROPHE, 'g'));
+    if (result == null)
+        return false;
+    return true;
+}
+
 /* Exemplo de `data`:
     data = {
         identifier_name: {
@@ -15,7 +25,7 @@ function interpreter(tokens) {
         if (tokens[i].token == '=') {
             identifier_name = tokens[i - 1].token;
             
-            expr = [];
+            expr = '';
             for (i++; tokens[i].token != ';' && tokens[i].tokens != 'end'; i++) {
                 if (data[tokens[i].token])
                     expr += data[tokens[i].token].value;
@@ -23,9 +33,15 @@ function interpreter(tokens) {
                     expr += tokens[i].token;
             }
             
-            data[identifier_name] = {
-                value: eval(expr)
-            };
+            if (is_string(expr)) {
+                data[identifier_name] = {
+                    value: expr
+                };
+            } else {
+                data[identifier_name] = {
+                    value: eval(expr)
+                };
+            }
         }
         
         /* Condicional if. */

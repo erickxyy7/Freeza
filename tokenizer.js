@@ -1,7 +1,7 @@
+const tokensReg = require('./tokens');
+
 function tokenizer(program) {
-    var tokenRegex = /[a-zA-Z_][a-zA-Z0-9_]*|(==)|(!=)|(>=)|(<=)|[><()=;+\-\*/%\n]|[0-9]*/gm;
-    
-    tokens = program.match(tokenRegex);
+    tokens = program.match(tokensReg.tokenRegex);
     
     /* Remove '' */
     for (let index = tokens.indexOf(''); index != -1; index = tokens.indexOf(''))
@@ -14,6 +14,17 @@ function tokenizer(program) {
     /* Coloca ';' no final dos tokens se não houver. */
     if (tokens[tokens.length - 1] != ';')
         tokens[tokens.length] = ';'
+    
+    /* Remove ';' desnecessários. */
+    for (let i = 0, l = tokens.length; i < l; i++) {
+        if (tokens[i] == ';' && tokens[i + 1] == ';')
+            delete tokens[i];
+    }
+    intermediate_tokens = tokens;
+    tokens = [];
+    intermediate_tokens.forEach(function (item) {
+        tokens[tokens.length] = item;
+    });
     
     return translateSomeTokensToJavascript(tokens);
 }

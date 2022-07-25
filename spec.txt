@@ -36,6 +36,7 @@ or
 Tipos:
 int (inteiro): idêntico ao número inteiro do JavaScript.
 bool (booleano): true ou false
+str (string): exemplo: 'aqui está uma string.'    semelhante as strings em JavaScript.
 
 
 Regras de nomes de identificadores:
