@@ -12,6 +12,7 @@ var tokenRegex = new RegExp(`${STRING_APOSTROPHE}|${IDENTIFIER}|${RELATIONAL_OPE
 module.exports = {
     tokenRegex: tokenRegex,
     isolated: {
-        STRING_APOSTROPHE: "'([^']+)'"
+        STRING_APOSTROPHE: STRING_APOSTROPHE,
+        IDENTIFIER: IDENTIFIER
     }
 };

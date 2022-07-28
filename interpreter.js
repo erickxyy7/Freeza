@@ -1,12 +1,4 @@
-const STRING_APOSTROPHE = require('./tokens').isolated.STRING_APOSTROPHE;
-
-function is_string(value) {
-    value = String(value);
-    let result = value.match(RegExp(STRING_APOSTROPHE, 'g'));
-    if (result == null)
-        return false;
-    return true;
-}
+const freeza_eval = require('./eval');
 
 /* Exemplo de `data`:
     data = {
@@ -14,34 +6,33 @@ function is_string(value) {
             value: value
         }
     };
+ * 
+ * `data` vem com algumas palavras-chave predefinidas.
  */
-var data = {};
+var data = {
+    'true': true,
+    'false': false
+};
 
 function interpreter(tokens) {
-    let expr, ifPosition, positionOfWhile;
+    let expr, ifPosition, positionOfWhile, toPrint;
     for (let i = 0, l = tokens.length; i < l; i++) {
         
         /* Atribuição. */
         if (tokens[i].token == '=') {
             identifier_name = tokens[i - 1].token;
             
-            expr = '';
+            expr = [];
             for (i++; tokens[i].token != ';' && tokens[i].tokens != 'end'; i++) {
                 if (data[tokens[i].token])
-                    expr += data[tokens[i].token].value;
+                    expr[expr.length] = data[tokens[i].token].value;
                 else
-                    expr += tokens[i].token;
+                    expr[expr.length] = tokens[i].token;
             }
             
-            if (is_string(expr)) {
-                data[identifier_name] = {
-                    value: expr
-                };
-            } else {
-                data[identifier_name] = {
-                    value: eval(expr)
-                };
-            }
+            data[identifier_name] = {
+                value: freeza_eval(data, expr)
+            };
         }
         
         /* Condicional if. */
@@ -56,7 +47,7 @@ function interpreter(tokens) {
             }
             
             /* Caso a expressão seja verdadeira. */
-            if (eval(expr))
+            if (freeza_eval(data, expr))
                 continue;
             
             /* Caso a expressão seja falsa. */
@@ -75,7 +66,7 @@ function interpreter(tokens) {
             }
             
             /* Caso a expressão seja verdadeira. */
-            if (eval(expr))
+            if (freeza_eval(data, expr))
                 continue;
             
             /* Caso a expressão seja falsa. */
@@ -90,14 +81,19 @@ function interpreter(tokens) {
          * Imprime na tela.
          */
         if (tokens[i].token == 'print') {
-            expr = '';
+            expr = [];
             for(i++; tokens[i].token != ';'; i++) {
                 if (data[tokens[i].token])
-                    expr += data[tokens[i].token].value;
+                    expr[expr.length] = data[tokens[i].token].value;
                 else
-                    expr += tokens[i].token;
+                    expr[expr.length] = tokens[i].token;
             }
-            console.log(eval(expr));
+            console.log(expr); process.exit(0);
+            toPrint = freeza_eval(data, expr);
+            if (typeof toPrint == 'string')
+                console.log(eval(toPrint));
+            else
+                console.log(toPrint);
         }
     }
 }
