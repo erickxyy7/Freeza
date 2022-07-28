@@ -10,8 +10,12 @@ const freeza_eval = require('./eval');
  * `data` vem com algumas palavras-chave predefinidas.
  */
 var data = {
-    'true': true,
-    'false': false
+    'true': {
+        value: true
+    },
+    'false': {
+        value: false
+    }
 };
 
 function interpreter(tokens) {
@@ -83,12 +87,12 @@ function interpreter(tokens) {
         if (tokens[i].token == 'print') {
             expr = [];
             for(i++; tokens[i].token != ';'; i++) {
-                if (data[tokens[i].token])
-                    expr[expr.length] = data[tokens[i].token].value;
+                token = tokens[i].token;
+                if (data[token] == undefined)
+                    expr[expr.length] = token;
                 else
-                    expr[expr.length] = tokens[i].token;
+                    expr[expr.length] = data[token].value;
             }
-            console.log(expr); process.exit(0);
             toPrint = freeza_eval(data, expr);
             if (typeof toPrint == 'string')
                 console.log(eval(toPrint));
