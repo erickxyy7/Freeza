@@ -1,3 +1,6 @@
+[Projeto descontinuado]
+
+Vou estudar alguns conceitos muito importantes que aprendi ao implementar essa linguagem e, possivelmente, vou criar uma linguagem melhor no futuro ;)
 # Freeza
 Uma simples linguagem de programação implementada em JavaScript. O foco dessa linguagem é ser simples e fácil. Sinta-se a vontade para contribuir de qualquer maneira.
 
